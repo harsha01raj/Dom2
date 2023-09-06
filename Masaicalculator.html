@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Masai Calculator</title>
+    <style>
+      #parent {
+        /* border: 2px solid red; */
+        width: 450px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 75px);
+        grid-auto-rows: 75px;
+        gap: 10px;
+        justify-content: center;
+        padding: 50px 0px;
+        margin-top: 70px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      #parent > button {
+        /* border: 2px solid blue; */
+        text-align: center;
+        padding: 15px 0px;
+        font-size: 25px;
+        font-weight: bolder;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      #parent > div:nth-child(1) {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 2;
+      }
+      h1 {
+        text-align: center;
+        font-size: 60px;
+        color: teal;
+      }
+      .operator {
+        background-color: black;
+        color: white;
+      }
+      #equal {
+        background-color: black;
+        color: white;
+      }
+      #red {
+        background-color: red;
+        color: white;
+      }
+      #parent > div {
+        text-align: right;
+        padding: 15px 0px;
+        font-size: 50px;
+        font-weight: bolder;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Masai Calculator</h1>
+    <div id="parent">
+      <div id="display"></div>
+      <button class="button">1</button>
+      <button class="button">2</button>
+      <button class="button">3</button>
+      <button class="operator">+</button>
+      <button class="button">4</button>
+      <button class="button">5</button>
+      <button class="button">6</button>
+      <button class="operator">-</button>
+      <button class="button">7</button>
+      <button class="button">8</button>
+      <button class="button">9</button>
+      <button class="operator">*</button>
+      <button id="red" class="button">C</button>
+      <button class="button">0</button>
+      <button id="equal">=</button>
+      <button class="operator">/</button>
+    </div>
+  </body>
+  <script>
+    let keypadButton = document.querySelectorAll("#parent>.button");
+    let operatorbutton = document.getElementsByClassName("operator");
+    let equal = document.getElementById("equal");
+    let heading = document.getElementById("display");
+    let clear = document.getElementById("red");
+    let firstNumber = "";
+    let secondNumber = "";
+    let IsFirstNumber = true;
+    let operator = "";
+    let WeHaveFirstNumber = false;
+
+    equal.addEventListener("click", function () {
+      heading.innerText = calculate(firstNumber, secondNumber, operator);
+      firstNumber = heading.innerText;
+      WeHaveFirstNumber = true;
+    });
+
+    for (let i = 0; i < keypadButton.length; i++) {
+      keypadButton[i].addEventListener("click", function () {
+        
+          if (IsFirstNumber == true) {
+            firstNumber += keypadButton[i].innerText;
+            heading.innerText = firstNumber;
+          } else {
+            secondNumber += keypadButton[i].innerText;
+            heading.innerText = secondNumber;
+          }
+          if (keypadButton[i].innerText == "C") {
+            heading.innerText = "";
+            firstNumber = "";
+            secondNumber = "";
+            IsFirstNumber = true;
+          }
+      });
+    }
+    for (let i = 0; i < operatorbutton.length; i++) {
+      operatorbutton[i].addEventListener("click", function () {
+        IsFirstNumber = false;
+        operator = operatorbutton[i].innerText;
+      });
+    }
+
+    function calculate(firstNumber, secondNumber, operator) {
+      switch (operator) {
+        case "+":
+          let result = Number(firstNumber) + Number(secondNumber);
+          return result;
+        case "-":
+          return Number(firstNumber) - Number(secondNumber);
+        case "*":
+          return Number(firstNumber) * Number(secondNumber);
+        case "/":
+          return Number(firstNumber) / Number(secondNumber);
+      }
+    }
+  </script>
+</html>
